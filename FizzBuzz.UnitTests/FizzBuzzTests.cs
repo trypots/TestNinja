@@ -1,6 +1,4 @@
-﻿using System;
-using NUnit.Framework;
-using static TestNinja.Fundamentals.FizzBuzz;
+﻿using NUnit.Framework;
 
 namespace TestNinja.UnitTests
 {
@@ -8,42 +6,36 @@ namespace TestNinja.UnitTests
 	public class FizzBuzzTests
 	{
 		[Test]
-		[TestCase(3,"Fizz")]
-		[TestCase(6,"Fizz")]
-		public void FizzBuzz_MultipleOfThree_ReturnsFizz(int a, string expected)
+		public void GetOutput_InputIsDivisibleBy3And5_ReturnFizzBuzz()
 		{
-			var result = GetOutput(a);
-			Assert.That(result, Is.EqualTo(expected));
+			var result = TestNinja.Fundamentals.FizzBuzz.GetOutput(15);
+
+			Assert.That(result, Is.EqualTo("FizzBuzz"));
 		}
 
 		[Test]
-		[TestCase(5, "Buzz")]
-		[TestCase(10, "Buzz")]
-		public void FizzBuzz_MultipleOfFive_ReturnsBuzz(int a, string expected)
+		public void GetOutput_InputIsDivisibleBy3Only_ReturnFizz()
 		{
-			var result = GetOutput(a);
-			Assert.That(result, Is.EqualTo(expected));
+			var result = TestNinja.Fundamentals.FizzBuzz.GetOutput(3);
+
+			Assert.That(result, Is.EqualTo("Fizz"));
 		}
 
 		[Test]
-		[TestCase(15, "FizzBuzz")]
-		[TestCase(30, "FizzBuzz")]
-		public void FizzBuzz_MultipleOfThreeandFive_ReturnsFizzBuzz(int a, string expected)
+		public void GetOutput_InputIsDivisibleBy5Only_ReturnBuzz()
 		{
-			var result = GetOutput(a);
-			Assert.That(result, Is.EqualTo(expected));
+			var result = TestNinja.Fundamentals.FizzBuzz.GetOutput(5);
+
+			Assert.That(result, Is.EqualTo("Buzz"));
 		}
 
 		[Test]
-		[TestCase(1, "1")]
-		[TestCase(4, "4")]
-		[TestCase(22, "22")]
-		public void FizzBuzz_NonMultipleOfThreeandFive_ReturnsNumberAsString(int a, string expected)
+		public void GetOutput_InputIsNotDivisibleBy3Or5_ReturnTheSameNumber()
 		{
-			var result = GetOutput(a);
-			Assert.That(result, Is.EqualTo(expected));
+			var result = TestNinja.Fundamentals.FizzBuzz.GetOutput(1);
+
+			Assert.That(result, Is.EqualTo("1"));
 		}
 
 	}
-
 }

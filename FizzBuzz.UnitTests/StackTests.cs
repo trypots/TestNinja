@@ -1,58 +1,115 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using TestNinja.Fundamentals;
 
-namespace FizzBuzz.UnitTests
+namespace TestNinja.UnitTests
 {
 	[TestFixture]
 	public class StackTests
 	{
-
-		Stack<string> _stack;
-		
-		[SetUp]
-		public void Setup()
+		[Test]
+		public void Push_ArgIsNull_ThrowArgNullException()
 		{
-			_stack = new Stack<string>();
-		}
+			var stack = new Stack<string>();
 
-		[TearDown]
-		public void TearDown()
-		{
-			_stack = null;
+			Assert.That(() => stack.Push(null), Throws.ArgumentNullException);
 		}
 
 		[Test]
-		public void Stack_PushNull_ReturnsArgumentNullException()
+		public void Push_ValidArg_AddTheObjectToTheStack()
 		{
-			Assert.That(() => _stack.Push(null), Throws.Exception.TypeOf<ArgumentNullException>());
+			var stack = new Stack<string>();
+
+			stack.Push("a");
+
+			Assert.That(stack.Count, Is.EqualTo(1));
 		}
 
 		[Test]
-		public void Stack_PopEmptyStack_ReturnsInvalidOperationException()
+		public void Count_EmptyStack_ReturnZero()
 		{
-			Assert.That(() => _stack.Pop(), Throws.Exception.TypeOf<InvalidOperationException>());
+			var stack = new Stack<string>();
+
+			Assert.That(stack.Count, Is.EqualTo(0));
 		}
 
 		[Test]
-		public void Stack_PeekEmptyStack_ReturnsInvalidOperationException()
+		public void Pop_EmptyStack_ThrowInvalidOperationException()
 		{
-			Assert.That(() => _stack.Peek(), Throws.Exception.TypeOf<InvalidOperationException>());
+			var stack = new Stack<string>();
+
+			Assert.That(() => stack.Pop(), Throws.InvalidOperationException);
 		}
 
 		[Test]
-		public void Stack_PushPeekAndPopValidValues_StackBehavesCorrectly()
+		public void Pop_StackWithAFewObjects_ReturnObjectOnTheTop()
 		{
-			Assert.That(_stack.Count, Is.EqualTo(0));
-			_stack.Push("a");
-			_stack.Push("b");
-			Assert.That(_stack.Peek(), Is.EqualTo("b"));
-			Assert.That(_stack.Count, Is.EqualTo(2));
-			Assert.That(_stack.Pop(), Is.EqualTo("b"));
-			Assert.That(_stack.Count, Is.EqualTo(1));
-			Assert.That(_stack.Pop(), Is.EqualTo("a"));
-			Assert.That(_stack.Count, Is.EqualTo(0));
+			// Arrange 
+			var stack = new Stack<string>();
+			stack.Push("a");
+			stack.Push("b");
+			stack.Push("c");
+
+			// Act
+			var result = stack.Pop();
+
+			// Assert
+			Assert.That(result, Is.EqualTo("c"));
 		}
 
+		[Test]
+		public void Pop_StackWithAFewObjects_RemoveObjectOnTheTop()
+		{
+			// Arrange 
+			var stack = new Stack<string>();
+			stack.Push("a");
+			stack.Push("b");
+			stack.Push("c");
+
+			// Act
+			stack.Pop();
+
+			// Assert
+			Assert.That(stack.Count, Is.EqualTo(2));
+		}
+
+		[Test]
+		public void Peek_EmptyStack_ThrowInvalidOperationException()
+		{
+			var stack = new Stack<string>();
+
+			Assert.That(() => stack.Peek(), Throws.InvalidOperationException);
+		}
+
+		[Test]
+		public void Peek_StackWithObjects_ReturnObjectOnTopOfTheStack()
+		{
+			// Arrange 
+			var stack = new Stack<string>();
+			stack.Push("a");
+			stack.Push("b");
+			stack.Push("c");
+
+			// Act
+			var result = stack.Peek();
+
+			// Assert
+			Assert.That(result, Is.EqualTo("c"));
+		}
+
+		[Test]
+		public void Peek_StackWithObjects_DoesNotRemoveTheObjectOnTopOfTheStack()
+		{
+			// Arrange 
+			var stack = new Stack<string>();
+			stack.Push("a");
+			stack.Push("b");
+			stack.Push("c");
+
+			// Act
+			stack.Peek();
+
+			// Assert
+			Assert.That(stack.Count, Is.EqualTo(3));
+		}
 	}
 }
